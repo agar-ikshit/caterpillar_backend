@@ -18,8 +18,8 @@ app.use(express.json());
 const userRoutes = require('./api/userRoutes');
 const inspectionRoutes = require('./api/inspectionRoutes');
 
-app.use('/api/inspections', userRoutes);
-app.use('/api/users', inspectionRoutes);
+app.use('/api/inspectionRoutes', userRoutes);
+app.use('/api/userRoutes', inspectionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

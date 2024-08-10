@@ -12,8 +12,8 @@ router.post('/', async (req, res) => {
 
     res.status(200).json({ message: 'Inspection data received and saved successfully', data: inspectionData });
   } catch (err) {
-    console.error('Error saving inspection data:', err);
-    res.status(500).json({ message: 'Error saving inspection data', error: err });
+    console.error('Error saving inspection data:', err.message);
+    res.status(500).json({ message: 'Error saving inspection data', error: err.message });
   }
 });
 

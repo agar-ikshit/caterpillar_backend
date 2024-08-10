@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3000
 require('dotenv').config();
 
 const mongoURI = '';
+// change this
 
 mongoose.connect(process.env.MONGO_URI, {
  

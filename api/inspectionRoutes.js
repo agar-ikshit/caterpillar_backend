@@ -2,7 +2,7 @@ const express = require('express');
 const Inspection = require('../models/Inspection');
 const router = express.Router();
 
-router.post('/inspection', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const inspectionData = req.body;
     console.log('Received inspection data:', inspectionData);

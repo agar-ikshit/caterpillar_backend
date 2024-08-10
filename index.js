@@ -1,13 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000
+require('dotenv').config();
 
-const mongoURI = 'mongodb+srv://ikshitagarwa:iGGLqQyJUA7jk4LO@cluster0.9vwjx.mongodb.net/caterpillar_backend?retryWrites=true&w=majority';
+const mongoURI = '';
 
-mongoose.connect(mongoURI)
-  .then(() => console.log('MongoDB connected successfully'))
-  .catch(err => console.log('MongoDB connection error:', err));
+mongoose.connect(process.env.MONGO_URI, {
+ 
+}).then(() => {
+  console.log('Connected to MongoDB');
+}).catch((err) => {
+  console.error('Error connecting to MongoDB', err);
+});
 
 app.use(express.json());
 

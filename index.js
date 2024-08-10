@@ -4,8 +4,6 @@ const app = express();
 const PORT = process.env.PORT || 3000
 require('dotenv').config();
 
-const mongoURI = '';
-// change this
 
 mongoose.connect(process.env.MONGO_URI, {
  
@@ -17,8 +15,8 @@ mongoose.connect(process.env.MONGO_URI, {
 
 app.use(express.json());
 
-const userRoutes = require('./routes/userRoutes');
-const inspectionRoutes = require('./routes/inspectionRoutes');
+const userRoutes = require('./api/userRoutes');
+const inspectionRoutes = require('./api/inspectionRoutes');
 
 app.use('/', userRoutes);
 app.use('/', inspectionRoutes);

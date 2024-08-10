@@ -1,21 +1,21 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json()); 
+const mongoURI = 'mongodb+srv://ikshitagarwa:iGGLqQyJUA7jk4LO@cluster0.9vwjx.mongodb.net/caterpillar_backend?retryWrites=true&w=majority';
 
+mongoose.connect(mongoURI)
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.log('MongoDB connection error:', err));
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
+app.use(express.json());
 
+const userRoutes = require('./routes/userRoutes');
+const inspectionRoutes = require('./routes/inspectionRoutes');
 
-app.post('/users', (req, res) => {
-  const userData = req.body; 
-  console.log('Received user data:', userData);
-
-  res.status(200).json({ message: 'User data received successfully', data: userData });
-});
+app.use('/', userRoutes);
+app.use('/', inspectionRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

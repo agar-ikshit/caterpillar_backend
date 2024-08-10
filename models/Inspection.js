@@ -1,18 +1,18 @@
 const mongoose = require('mongoose');
 
 const inspectionSchema = new mongoose.Schema({
-  truckSerialNumber: { type: String, required: true },
-  truckModel: { type: String, required: true },
-  inspectionID: { type: Number, required: true, unique: true },
-  inspectorName: { type: String, required: true },
-  inspectionEmployeeID: { type: String, required: true },
-  inspectionDateTime: { type: Date, required: true },
-  inspectionLocation: { type: String, required: true },
+  truckSerialNumber: { type: String,  },
+  truckModel: { type: String },
+  inspectionID: { type: String, unique: true, require:true},
+  inspectorName: { type: String },
+  inspectionEmployeeID: { type: String },
+  inspectionDateTime: { type: Date },
+  inspectionLocation: { type: String },
   geoCoordinates: { type: String }, // optional
-  serviceMeterHours: { type: Number, required: true },
-  inspectorSignature: { type: String, required: true },
-  customerName: { type: String, required: true },
-  customerID: { type: String, required: true },
+  serviceMeterHours: { type: Number },
+  inspectorSignature: { type: String },
+  customerName: { type: String},
+  customerID: { type: String },
 
   tires: {
     tirePressure: {

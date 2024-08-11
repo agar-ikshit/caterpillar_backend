@@ -3,7 +3,7 @@ import pymongo
 from pymongo import MongoClient
 
 # MongoDB connection details
-mongo_uri = "key"
+mongo_uri = "mongodb+srv://ikshitagarwa:iGGLqQyJUA7jk4LO@cluster0.9vwjx.mongodb.net/caterpillar_backend?retryWrites=true&w=majority"
 database_name = "caterpillar_hackathon"
 collection_name = "caterpillar_backend"
 

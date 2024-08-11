@@ -19,60 +19,96 @@ class _VoiceFormState extends State<VoiceForm> {
   bool _isListening = false;
   String _text = '';
   Map<String, dynamic> _formData = {
-    'truckSerialNumber': '',
-    'truckModel': '',
-    'inspectionId': '',
-    'inspectorName': '',
-    'inspectionEmployeeId': '',
-    'inspectionDateTime': '',
-    'inspectionLocation': '',
-    'geoCoordinates': '',
-    'serviceMeterHours': '',
-    'inspectorSignature': '',
-    'customerName': '',
-    'catCustomerId': '',
-    'tirePressureLeftFront': '',
-    'tirePressureRightFront': '',
-    'tireConditionLeftFront': '',
-    'tireConditionRightFront': '',
-    'tirePressureLeftRear': '',
-    'tirePressureRightRear': '',
-    'tireConditionLeftRear': '',
-    'tireConditionRightRear': '',
-    'tireSummary': '',
-    'tireImages': [],
-    'batteryMake': '',
-    'batteryReplacementDate': '',
-    'batteryVoltage': '',
-    'batteryWaterLevel': '',
-    'batteryDamage': false,
-    'batteryLeakRust': false,
-    'batterySummary': '',
-    'batteryImages': [],
-    'exteriorDamage': false,
-    'suspensionOilLeak': false,
-    'exteriorSummary': '',
-    'exteriorImages': [],
-    'brakeFluidLevel': '',
-    'brakeConditionFront': '',
-    'brakeConditionRear': '',
-    'emergencyBrake': '',
-    'brakeSummary': '',
-    'brakeImages': [],
-    'engineDamage': false,
-    'engineOilCondition': '',
-    'engineOilColor': '',
-    'brakeFluidCondition': '',
-    'brakeFluidColor': '',
-    'engineOilLeak': false,
-    'engineSummary': '',
-    'engineImages': [],
-    'customerFeedback': '',
-    'customerIssueImages': [],
-  };
+  "truckSerialNumber": "7301234",
+  "truckModel": "730",
+  "inspectionID": "56748",
+  "inspectorName": "John Lauda",
+  "inspectionEmployeeID": "EMP001",
+  "inspectionDateTime": "2024-08-10T14:30:00Z",
+  "inspectionLocation": "Warehouse A",
+  "geoCoordinates": "40.7128,-74.0060",
+  "serviceMeterHours": 15000,
+  "inspectorSignature": "JohnDoeSignature",
+  "customerName": "Acme Corp",
+  "customerID": "CUST12345",
 
+  "tires": {
+    "tirePressure": {
+      "leftFront": 32,
+      "rightFront": 30,
+      "leftRear": 32,
+      "rightRear": 30
+    },
+    "tireCondition": {
+      "leftFront": "Good",
+      "rightFront": "Ok",
+      "leftRear": "Needs Replacement",
+      "rightRear": "Good"
+    },
+    "overallTireSummary": "All tires are in good condition except the left rear which needs replacement.",
+    "attachedImages": [
+      "tire1.jpg",
+      "tire2.jpg",
+      "tire3.jpg",
+      "tire4.jpg"
+    ]
+  },
+
+  "battery": {
+    "batteryMake": "CAT",
+    "batteryReplacementDate": "2023-12-01T00:00:00Z",
+    "batteryVoltage": "12V",
+    "batteryWaterLevel": "Good",
+    "batteryCondition": "N",
+    "batteryLeakOrRust": "N",
+    "batterySummary": "The battery is in good condition with no leaks or rust.",
+    "attachedImages": [
+      "battery1.jpg"
+    ]
+  },
+
+  "exterior": {
+    "rustDentOrDamage": "Y",
+    "oilLeakInSuspension": "N",
+    "exteriorSummary": "There is some minor rust and a small dent on the rear bumper.",
+    "attachedImages": [
+      "exterior1.jpg",
+      "exterior2.jpg"
+    ]
+  },
+
+  "brakes": {
+    "brakeFluidLevel": "Ok",
+    "brakeConditionFront": "Good",
+    "brakeConditionRear": "Ok",
+    "emergencyBrake": "Good",
+    "brakeSummary": "Brakes are in good condition overall.",
+    "attachedImages": [
+      "brakes1.jpg"
+    ]
+  },
+
+  "engine": {
+    "rustDentOrDamage": "N",
+    "engineOilCondition": "Good",
+    "engineOilColor": "Clean",
+    "brakeFluidCondition": "Good",
+    "brakeFluidColor": "Clean",
+    "oilLeakInEngine": "N",
+    "engineSummary": "Engine is in good condition with no signs of rust or leaks.",
+    "attachedImages": [
+      "engine1.jpg"
+    ]
+  },
+
+  "voiceOfCustomer": {
+    "customerFeedback": "The inspection was thorough and well documented.",
+    "attachedImages": [
+      "feedback1.jpg"
+    ]
+  }
+};
   String _currentField = 'truckSerialNumber';
-  String _sessionId = DateTime.now().millisecondsSinceEpoch.toString();
   List<dynamic> _logData = [];
   bool _isSpeaking = false;
 
@@ -81,13 +117,8 @@ class _VoiceFormState extends State<VoiceForm> {
     super.initState();
     _requestPermissions();
     _loadLogData();
-    _formData['inspectionId'] = _generateInspectionId();
     _formData['inspectionDateTime'] = DateTime.now().toIso8601String();
     _speakCurrentField();
-  }
-
-  String _generateInspectionId() {
-    return 'INS${DateTime.now().millisecondsSinceEpoch}';
   }
 
   Future<void> _requestPermissions() async {
@@ -110,11 +141,9 @@ class _VoiceFormState extends State<VoiceForm> {
 
   void _logFormOpening() {
     final newEntry = {
-      'sessionId': _sessionId,
       'timestamp': DateTime.now().toIso8601String(),
       'action': 'form_opened',
     };
-    
     _logData.add(newEntry);
   }
 
@@ -123,9 +152,9 @@ class _VoiceFormState extends State<VoiceForm> {
       await _flutterTts.stop();
     }
     _isSpeaking = true;
-    await _flutterTts.speak("Current field is $_currentField. Please speak the value.");
+    await _flutterTts.speak(
+        "Current field is $_currentField. The current value is ${_formData[_currentField]}. Please speak the new value or say next or previous.");
     _isSpeaking = false;
-    _startListening();
   }
 
   void _startListening() async {
@@ -142,16 +171,25 @@ class _VoiceFormState extends State<VoiceForm> {
       if (available) {
         setState(() => _isListening = true);
         _speech.listen(
-          onResult: (result) => setState(() {
-            _text = result.recognizedWords;
-            _processVoiceInput(_text);
-          }),
+          onResult: (result) {
+            if (result.finalResult) {
+              setState(() {
+                _text = result.recognizedWords;
+                _processVoiceInput(_text, result.confidence);
+              });
+            }
+          },
         );
       }
     }
   }
 
-  void _processVoiceInput(String text) async {
+  void _processVoiceInput(String text, double confidence) async {
+    if (confidence < 0.5) {
+      print('Low confidence input ignored: $text (confidence: $confidence)');
+      return;
+    }
+
     text = text.toLowerCase();
     if (text.contains('next')) {
       _moveToNextField();
@@ -161,7 +199,7 @@ class _VoiceFormState extends State<VoiceForm> {
       setState(() {
         _formData[_currentField] = text;
       });
-      await _speakText('Value recorded. Say next or previous to navigate.');
+      await _speakText('Value recorded for $_currentField: $text');
     }
   }
 
@@ -172,7 +210,8 @@ class _VoiceFormState extends State<VoiceForm> {
       setState(() => _currentField = fields[currentIndex + 1]);
       await _speakCurrentField();
     } else {
-      await _speakText('This is the last field. Say previous to go back or finish to complete the form.');
+      await _speakText(
+          'This is the last field. Say previous to go back or finish to complete the form.');
     }
   }
 
@@ -190,60 +229,124 @@ class _VoiceFormState extends State<VoiceForm> {
   Future<void> _pickImage(String field) async {
     final ImagePicker _picker = ImagePicker();
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-    
+
     if (image != null) {
       setState(() {
-        if (_formData[field] is List) {
-          _formData[field].add(image.path);
+        List<String> keys = field.split('.');
+        Map<String, dynamic> current = _formData;
+        for (int i = 0; i < keys.length - 1; i++) {
+          current = current[keys[i]];
+        }
+        if (current[keys.last] is List) {
+          current[keys.last].add(image.path);
         } else {
-          _formData[field] = [image.path];
+          current[keys.last] = [image.path];
         }
       });
     }
   }
 
   Future<void> _finishForm() async {
-    final newEntry = {
-      'sessionId': _sessionId,
+    final formattedData = {
       'timestamp': DateTime.now().toIso8601String(),
       'action': 'form_finished',
       'data': _formData,
     };
-    
-    _logData.add(newEntry);
+    _logData.add(formattedData);
+
+    // Log form data to console before sending
+    print('Form data before sending:');
+    print(json.encode(_formData));
 
     print('Updated log data:');
     print(json.encode(_logData));
 
-    try {
-      final response = await http.post(
-        Uri.parse('https://caterpillar-backend.vercel.app/'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(newEntry),
-      );
+    // Print full request payload
+    print('Full request payload:');
+    print(json.encode(formattedData));
 
-      if (response.statusCode == 200) {
-        print('Data sent successfully');
-        print('Server response: ${response.body}');
-      } else {
-        print('Failed to send data. Status code: ${response.statusCode}');
-        print('Server response: ${response.body}');
+    int retryCount = 0;
+    const maxRetries = 3;
+
+    while (retryCount < maxRetries) {
+      try {
+        final response = await http
+            .post(
+              Uri.parse('https://public-clubs-dance.loca.lt/api/inspections'),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(formattedData),
+            )
+            .timeout(Duration(seconds: 10)); // Add a timeout
+
+        if (response.statusCode == 200) {
+          print('Data sent successfully');
+          print('Server response: ${response.body}');
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Form finished and data sent to server')),
+          );
+          return; // Exit the function if successful
+        } else {
+          print('Failed to send data. Status code: ${response.statusCode}');
+          print('Server response: ${response.body}');
+          print('Response headers: ${response.headers}');
+
+          // Check if it's a server error (5xx status code)
+          if (response.statusCode >= 500) {
+            retryCount++;
+            if (retryCount < maxRetries) {
+              print('Retrying... Attempt $retryCount of $maxRetries');
+              await Future.delayed(
+                  Duration(seconds: 2 * retryCount)); // Exponential backoff
+              continue; // Retry the request
+            }
+          }
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to send data. Please try again.')),
+          );
+        }
+      } catch (e) {
+        print('Error sending data: $e');
+        retryCount++;
+        if (retryCount < maxRetries) {
+          print('Retrying... Attempt $retryCount of $maxRetries');
+          await Future.delayed(
+              Duration(seconds: 2 * retryCount)); // Exponential backoff
+          continue; // Retry the request
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content:
+                  Text('Error sending data. Please check your connection.')),
+        );
       }
-    } catch (e) {
-      print('Error sending data: $e');
+      break; // Exit the loop if all retries failed
     }
 
     setState(() {
-      _formData = Map.from(_formData)..updateAll((key, value) => '');
+      _formData = _resetFormData(_formData);
       _currentField = 'truckSerialNumber';
-      _sessionId = DateTime.now().millisecondsSinceEpoch.toString();
     });
+  }
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Form finished and data sent to server')),
-    );
+  Map<String, dynamic> _resetFormData(Map<String, dynamic> data) {
+    return data.map((key, value) {
+      if (value is Map<String, dynamic>) {
+        return MapEntry(key, _resetFormData(value));
+      } else if (value is List) {
+        return MapEntry(key, []);
+      } else if (value is int) {
+        return MapEntry(key, 0);
+      } else if (value is double) {
+        return MapEntry(key, 0.0);
+      } else if (value is bool) {
+        return MapEntry(key, false);
+      } else {
+        return MapEntry(key, '');
+      }
+    });
   }
 
   Future<void> _speakText(String text) async {
@@ -269,13 +372,17 @@ class _VoiceFormState extends State<VoiceForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Current field: $_currentField', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text('Current field: $_currentField',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(height: 20),
               _buildFormFields(),
               SizedBox(height: 20),
-              Text('Recognized text: $_text', style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
+              Text('Recognized text: $_text',
+                  style: TextStyle(fontSize: 16, fontStyle: FontStyle.italic)),
               SizedBox(height: 20),
-              Text('Voice commands: "Next" to move forward, "Previous" to move backward', style: TextStyle(fontSize: 14)),
+              Text(
+                  'Voice commands: "Next" to move forward, "Previous" to move backward',
+                  style: TextStyle(fontSize: 14)),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _finishForm,
@@ -291,38 +398,52 @@ class _VoiceFormState extends State<VoiceForm> {
   Widget _buildFormFields() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: _formData.keys.map((key) {
-        return Column(
+      children: _buildNestedFields(_formData),
+    );
+  }
+
+  List<Widget> _buildNestedFields(Map<String, dynamic> data,
+      {String prefix = ''}) {
+    List<Widget> widgets = [];
+    data.forEach((key, value) {
+      String fullKey = prefix.isEmpty ? key : '$prefix.$key';
+      if (value is Map<String, dynamic>) {
+        widgets.add(Text(key,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)));
+        widgets.addAll(_buildNestedFields(value, prefix: fullKey));
+      } else if (value is List && key == 'attachedImages') {
+        widgets.add(ElevatedButton(
+          onPressed: () => _pickImage(fullKey),
+          child: Text('Add Image to $key'),
+        ));
+        widgets.addAll(value.map<Widget>((path) => Image.file(File(path))));
+      } else {
+        widgets.add(Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(key, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text('$key: ${value.toString()}', style: TextStyle(fontSize: 16)),
+            TextFormField(
+              initialValue: value.toString(),
+              onChanged: (newValue) {
+                _updateNestedValue(fullKey, newValue);
+              },
+            ),
             SizedBox(height: 10),
-            if (_formData[key] is bool) ...[
-              Switch(
-                value: _formData[key],
-                onChanged: (value) {
-                  setState(() => _formData[key] = value);
-                },
-              ),
-            ] else if (_formData[key] is List) ...[
-              ElevatedButton(
-                onPressed: () => _pickImage(key),
-                child: Text('Pick Image'),
-              ),
-              SizedBox(height: 10),
-              ..._formData[key].map<Widget>((path) => Image.file(File(path))),
-            ] else ...[
-              TextFormField(
-                initialValue: _formData[key].toString(),
-                onChanged: (value) {
-                  setState(() => _formData[key] = value);
-                },
-              ),
-            ],
-            SizedBox(height: 20),
           ],
-        );
-      }).toList(),
-    );
+        ));
+      }
+    });
+    return widgets;
+  }
+
+  void _updateNestedValue(String key, dynamic value) {
+    List<String> keys = key.split('.');
+    Map<String, dynamic> current = _formData;
+    for (int i = 0; i < keys.length - 1; i++) {
+      current = current[keys[i]];
+    }
+    setState(() {
+      current[keys.last] = value;
+    });
   }
 }

@@ -1,0 +1,90 @@
+{
+    "truckSerialNumber": "7301234",
+    "truckModel": "730",
+    "inspectionID": "56748",
+    "inspectorName": "John Lauda",
+    "inspectionEmployeeID": "EMP001",
+    "inspectionDateTime": "2024-08-10T14:30:00Z",
+    "inspectionLocation": "Warehouse A",
+    "geoCoordinates": "40.7128,-74.0060",
+    "serviceMeterHours": 15000,
+    "inspectorSignature": "JohnDoeSignature",
+    "customerName": "Acme Corp",
+    "customerID": "CUST12345",
+  
+    "tires": {
+      "tirePressure": {
+        "leftFront": 32,
+        "rightFront": 30,
+        "leftRear": 32,
+        "rightRear": 30
+      },
+      "tireCondition": {
+        "leftFront": "Good",
+        "rightFront": "Ok",
+        "leftRear": "Needs Replacement",
+        "rightRear": "Good"
+      },
+      "overallTireSummary": "All tires are in good condition except the left rear which needs replacement.",
+      "attachedImages": [
+        "tire1.jpg",
+        "tire2.jpg",
+        "tire3.jpg",
+        "tire4.jpg"
+      ]
+    },
+  
+    "battery": {
+      "batteryMake": "CAT",
+      "batteryReplacementDate": "2023-12-01T00:00:00Z",
+      "batteryVoltage": "12V",
+      "batteryWaterLevel": "Good",
+      "batteryCondition": "N",
+      "batteryLeakOrRust": "N",
+      "batterySummary": "The battery is in good condition with no leaks or rust.",
+      "attachedImages": [
+        "battery1.jpg"
+      ]
+    },
+  
+    "exterior": {
+      "rustDentOrDamage": "Y",
+      "oilLeakInSuspension": "N",
+      "exteriorSummary": "There is some minor rust and a small dent on the rear bumper.",
+      "attachedImages": [
+        "exterior1.jpg",
+        "exterior2.jpg"
+      ]
+    },
+  
+    "brakes": {
+      "brakeFluidLevel": "Ok",
+      "brakeConditionFront": "Good",
+      "brakeConditionRear": "Ok",
+      "emergencyBrake": "Good",
+      "brakeSummary": "Brakes are in good condition overall.",
+      "attachedImages": [
+        "brakes1.jpg"
+      ]
+    },
+  
+    "engine": {
+      "rustDentOrDamage": "N",
+      "engineOilCondition": "Good",
+      "engineOilColor": "Clean",
+      "brakeFluidCondition": "Good",
+      "brakeFluidColor": "Clean",
+      "oilLeakInEngine": "N",
+      "engineSummary": "Engine is in good condition with no signs of rust or leaks.",
+      "attachedImages": [
+        "engine1.jpg"
+      ]
+    },
+  
+    "voiceOfCustomer": {
+      "customerFeedback": "The inspection was thorough and well documented.",
+      "attachedImages": [
+        "feedback1.jpg"
+      ]
+    }
+  }
